@@ -1,3 +1,4 @@
-const result = dotEnv.config();
+import * as dotenv from 'dotenv';
+dotenv.config();
 
-export const Port = process.env.port || 5000;
+export const PORT = process.env.PORT || 5000;

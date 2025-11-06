@@ -1,10 +1,9 @@
 import express from "express";
-import { Port } from "./envConfig.js";
 const app = express();
 
 app.get('/', (req, res) => {
-    res.send("hello", dotEnv)
+    res.send("Welcome to Hell")
 })
-console.log("hello", Port)
+
 
 export default app;
