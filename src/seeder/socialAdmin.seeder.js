@@ -8,7 +8,7 @@ async function checkAdmin() {
         });
 
         if (!existingAdmin) {
-            await AdminUser.create({
+            await AdminUSer.create({
                 name: "Admin",
                 email: "admin@gmail.com",
                 password: "1234",

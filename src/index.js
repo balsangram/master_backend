@@ -8,8 +8,8 @@ app.use("/", AppRouter);
 
 async function startServer() {
     try {
-        await seeder()
         await connectDB()
+        await seeder()
         app.listen(PORT, () => {
             console.log(`Example app listening on port ${PORT}`);
         })

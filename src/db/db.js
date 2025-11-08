@@ -1,23 +1,18 @@
-import mongoose from "mongoose"
-import { DB_NAME, PASSWORD, USERNAME } from "../envConfig.js";
+import mongoose from "mongoose";
+import { DB_NAME, DB_PASSWORD, DB_USERNAME } from "../envConfig.js";
 
-// ✅ Encode username/password to safely handle special characters like '@'
-// const encodedUsername = encodeURIComponent(USERNAME);
-// const encodedPassword = encodeURIComponent(PASSWORD);
-
-// const MONGODB_URI = `mongodb+srv://${encodedUsername}:${encodedPassword}@cluster0.qfkll1w.mongodb.net/${DB_NAME}?appName=Cluster0`
-const MONGODB_URI = `mongodb+srv://${USERNAME}:${PASSWORD}@cluster0.f6kvte0.mongodb.net/${DB_NAME}?appName=Cluster0`
+const MONGODB_URI = `mongodb+srv://${DB_USERNAME}:${DB_PASSWORD}@cluster0.f6kvte0.mongodb.net/${DB_NAME}?appName=Cluster0`;
 
 
-async function connectDB() {
+export async function connectDB() {
     try {
-        const connectionInstance = await mongoose.connect(MONGODB_URI)
-        console.log(connectionInstance, "connectionInstance")
+        console.log("📡 Connecting to local MongoDB...");
+        const conn = await mongoose.connect(MONGODB_URI, {
+            serverSelectionTimeoutMS: 10000, // optional: waits 10s before error
+        });
+        console.log(`MongoDB connected at ${conn.connection.host}:${conn.connection.port}`);
     } catch (error) {
-        console.log(error, "error");
+        console.error("MongoDB connection failed:", error.message);
         process.exit(1);
     }
-}
-export {
-    connectDB,
 }
