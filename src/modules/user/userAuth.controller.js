@@ -1,32 +1,36 @@
-function userRegister() {
+import { wrapAllAsync } from "../../utils/wrapAllAsync.js"
+
+async function userRegister(req, res) {
 
 }
 
-function userLogin() {
+async function userLogin(req, res) {
 
 }
 
-function changePassword() {
+async function changePassword(req, res) {
 
 }
 
-function userProfile() {
+async function userProfile(req, res) {
 
 }
 
-function editProfile() {
+async function editProfile(req, res) {
 
 }
 
-function logout() {
+async function logout(req, res) {
 
 }
 
-function deleteUser() {
+async function deleteUser(req, res) {
 
 }
 
-export const userAuth = {
+// applay asyncHandler in all function 
+
+export const userAuth_controller = wrapAllAsync({
     userRegister,
     userLogin,
     changePassword,
@@ -34,4 +38,4 @@ export const userAuth = {
     editProfile,
     logout,
     deleteUser
-}
+})

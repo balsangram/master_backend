@@ -1,3 +1,5 @@
+import { wrapAllAsync } from "../../utils/wrapAllAsync.js";
+
 function adminLogin() {
 
 }
@@ -8,7 +10,7 @@ function adminChangePassword() {
 
 }
 
-function userProfile() {
+function adminProfile() {
 
 }
 
@@ -24,12 +26,17 @@ function deleteAdmin() {
 
 }
 
-export const adminAuth = {
+function ActiveInactiveToggle() {
+
+}
+
+export const adminAuth = wrapAllAsync({
     adminLogin,
     adminRegister,
     adminChangePassword,
-    userProfile,
+    adminProfile,
     editProfile,
     logout,
-    deleteAdmin
-}
+    deleteAdmin,
+    ActiveInactiveToggle,
+});
