@@ -1,4 +1,4 @@
-import { wrapAllAsync } from "../../utils/wrapAllAsync.js";
+import { wrapAllAsync } from "../../../utils/common/wrapAllAsync.js";
 
 function adminLogin() {
 

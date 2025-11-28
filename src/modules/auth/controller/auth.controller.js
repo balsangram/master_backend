@@ -1,7 +1,11 @@
-import { wrapAllAsync } from "../../utils/wrapAllAsync.js"
+import { ApiResponse } from "../../../utils/common/ApiResponse.js";
+import { wrapAllAsync } from "../../../utils/common/wrapAllAsync.js"
+import { userAuth_services } from "../services/auth.services.js";
 
-async function userRegister(req, res) {
-
+async function userRegister(req, res, next) {
+    // console.log(req.body, "body -1");
+    const result = await userAuth_services.userRegister(req.body);
+    return res.status(201).json(new ApiResponse(201, result, "User Registered Sucessafully"));
 }
 
 async function userLogin(req, res) {

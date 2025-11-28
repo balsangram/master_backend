@@ -3,29 +3,33 @@ const options = {
     discriminatorKey: "role",
     timestamps: true
 }
-const BaseUserSchema = new mongoose.Schema(
+const BaseAuthSchema = new mongoose.Schema(
     {
-        "name": {
+        name: {
             type: String,
             required: false,
             trim: true
         },
-        "mobile": {
-            type: Number,
-            required: false,
-            trim: true
-        },
-        "email": {
+        phone: {
             type: String,
             required: false,
             trim: true
         },
-        "username": {
+        email: {
             type: String,
-            require: false,
+            required: false,
             trim: true
+        },
+        username: {
+            type: String,
+            required: false,
+            trim: true
+        },
+        isActive: {
+            type: Boolean,
+            default: false
         }
     },
     options
 )
-export const BaseUser = mongoose.model("BaseUser", BaseUserSchema);
+export const BaseAuth = mongoose.model("BaseAuth", BaseAuthSchema);

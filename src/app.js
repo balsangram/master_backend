@@ -1,9 +1,13 @@
 import express from "express";
 import cors from "cors";
-import adminRoutes from "./modules/admin/admin.router.js";
-import userRouter from "./modules/user/userAuth.router.js"
+import adminRoutes from "./modules/admin/router/admin.router.js";
+import authRouter from "./modules/auth/router/auth.router.js"
 
 const app = express();
+
+// parse json 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 app.use(cors({ origin: true, credential: true }))
 
@@ -12,7 +16,7 @@ app.get('/', (req, res) => {
 })
 
 app.use("/admin", adminRoutes);
-app.use("/user", userRouter);
+app.use("/auth", authRouter);
 // app.use('/social',)
 
 export default app;

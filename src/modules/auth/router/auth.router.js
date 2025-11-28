@@ -1,0 +1,20 @@
+import express from "express";
+import { userAuth_controller } from "../controller/auth.controller.js"
+import { userAuthValidation } from "../validation/auth.validation.js";
+import { validateMultiple } from "../../../middleware/validateMultiple.js";
+
+const router = express.Router();
+
+router.post("/register",
+    validateMultiple(userAuthValidation.validateRegister),
+    userAuth_controller.userRegister);
+
+router.post("/login", userAuth_controller.userLogin);
+router.post("/change-password", userAuth_controller.changePassword);
+
+router.get("/profile", userAuth_controller.userProfile);
+router.patch("/edit-profile", userAuth_controller.editProfile);
+router.get("/logout", userAuth_controller.logout);
+router.delete("/delete-user", userAuth_controller.deleteUser);
+
+export default router;

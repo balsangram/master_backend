@@ -1,7 +1,9 @@
-import { wrapAllAsync } from "../../utils/wrapAllAsync.js"
+import { wrapAllAsync } from "../../../utils/common/wrapAllAsync.js"
+import { userAuth_repositories } from "../repositories/auth.repositories.js"
 
-async function userRegister() {
-
+async function userRegister(data) {
+    // console.log(data, "body 2");
+    const result = await userAuth_repositories.userRegister(data);
 }
 
 async function userLogin() {

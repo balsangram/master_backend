@@ -1,14 +1,14 @@
-import { AdminUSer } from "../modules/admin/admin.model.js";
+import { AdminAuth } from "../modules/admin/model/admin.model.js";
 
 async function checkAdmin() {
     try {
-        const existingAdmin = await AdminUSer.findOne({
+        const existingAdmin = await AdminAuth.findOne({
             email: "admin@gmail.com",
             userType: "admin",
         });
 
         if (!existingAdmin) {
-            await AdminUSer.create({
+            await AdminAuth.create({
                 name: "Admin",
                 email: "admin@gmail.com",
                 password: "1234",

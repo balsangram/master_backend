@@ -1,6 +1,6 @@
 import express from "express";
-import { adminAuth } from "./admin.controller.js";
-import { adminValidation } from "./admin.validation.js";
+import { adminAuth } from "../controller/admin.controller.js";
+import { adminValidation } from "../validation/admin.validation.js";
 
 const router = express.Router()
 
