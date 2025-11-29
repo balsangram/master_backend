@@ -1,34 +1,41 @@
+import { AppError } from "../utils/common/AppError.js";
 export const validateMultiple = (schemas) => {
     return (req, res, next) => {
+        console.log("🚀 ~ validateMultiple ~ req:", req.body)
         try {
             for (const [property, schema] of Object.entries(schemas)) {
+
                 if (schema && req[property]) {
-                    // Special handling for query parameters - allow empty queries
+
                     if (property === 'query' && Object.keys(req[property]).length === 0) {
-                        console.log('✅ validateMultiple: Empty query parameters allowed, skipping validation');
                         continue;
                     }
 
                     const { error, value } = schema.validate(req[property], {
                         abortEarly: false,
                         stripUnknown: true,
-                        allowUnknown: true // Allow unknown properties for query parameters
+                        allowUnknown: true
                     });
 
                     if (error) {
                         const errorMessage = error.details
-                            .map(detail => detail.message)
+                            .map(detail => detail.message.replace(/"/g, ""))
                             .join(', ');
 
-                        throw new ApiError(400, `Validation Error in ${property}: ${errorMessage}`);
+                        return res.status(400).json({
+                            success: false,
+                            message: errorMessage
+                        });
                     }
 
                     req[property] = value;
                 }
             }
+
             next();
-        } catch (error) {
-            next(error);
+
+        } catch (err) {
+            next(err);
         }
     };
 };

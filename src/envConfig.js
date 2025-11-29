@@ -7,10 +7,15 @@ const CORS_ORIGIN = process.env.CORS_ORIGIN;
 const DB_USERNAME = process.env.DB_USERNAME;
 const DB_PASSWORD = process.env.DB_PASSWORD;
 
+const JWT_SECRET = process.env.JWT_SECRET;
+const JWT_EXPIRES = process.env.JWT_EXPIRES;
+
 export {
     PORT,
     DB_NAME,
     CORS_ORIGIN,
     DB_USERNAME,
-    DB_PASSWORD
+    DB_PASSWORD,
+    JWT_SECRET,
+    JWT_EXPIRES
 }

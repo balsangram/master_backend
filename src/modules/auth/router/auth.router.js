@@ -6,11 +6,16 @@ import { validateMultiple } from "../../../middleware/validateMultiple.js";
 const router = express.Router();
 
 router.post("/register",
-    validateMultiple(userAuthValidation.validateRegister),
+    validateMultiple({ body: userAuthValidation.validateRegister }),
     userAuth_controller.userRegister);
 
-router.post("/login", userAuth_controller.userLogin);
-router.post("/change-password", userAuth_controller.changePassword);
+router.post("/login",
+    validateMultiple({ body: userAuthValidation.validationLogin }),
+    userAuth_controller.userLogin);
+
+router.post("/change-password",
+    validateMultiple({ body: userAuthValidation.validationChangrPassword }),
+    userAuth_controller.changePassword);
 
 router.get("/profile", userAuth_controller.userProfile);
 router.patch("/edit-profile", userAuth_controller.editProfile);

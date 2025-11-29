@@ -9,11 +9,21 @@ async function userRegister(req, res, next) {
 }
 
 async function userLogin(req, res) {
-
+    // console.log("🚀 ~ userLogin ~ req:", req.body)
+    const { user, token } = await userAuth_services.userLogin(req.body);
+    // Set cookie
+    res.cookie("auth_token", token, {
+        httpOnly: true,
+        secure: false,
+        sameSite: "lax",
+        maxAge: 7 * 24 * 60 * 60 * 1000
+    });
+    return res.status(201).json(new ApiResponse(201, { user, token }, "User Login Sucessafully"));
 }
 
 async function changePassword(req, res) {
-
+    const result = await userAuth_services.changePassword(req.body);
+    return res.status(201).json(new ApiResponse(201, result, "Password Change Sucessafully"));
 }
 
 async function userProfile(req, res) {
