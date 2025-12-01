@@ -3,7 +3,7 @@ import { wrapAllAsync } from "../../../utils/common/wrapAllAsync.js"
 import { userAuth_services } from "../services/auth.services.js";
 
 async function userRegister(req, res, next) {
-    // console.log(req.body, "body -1");
+    console.log(req.body, "body -1");
     const result = await userAuth_services.userRegister(req.body);
     return res.status(201).json(new ApiResponse(201, result, "User Registered Sucessafully"));
 }
@@ -22,7 +22,9 @@ async function userLogin(req, res) {
 }
 
 async function changePassword(req, res) {
-    const result = await userAuth_services.changePassword(req.body);
+    const id = req.user._id;
+    console.log("🚀 ~ changePassword ~ id:", id)
+    const result = await userAuth_services.changePassword(id, req.body);
     return res.status(201).json(new ApiResponse(201, result, "Password Change Sucessafully"));
 }
 

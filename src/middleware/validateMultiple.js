@@ -1,13 +1,30 @@
 import { AppError } from "../utils/common/AppError.js";
+
 export const validateMultiple = (schemas) => {
     return (req, res, next) => {
-        console.log("🚀 ~ validateMultiple ~ req:", req.body)
         try {
-            for (const [property, schema] of Object.entries(schemas)) {
+            console.log("🚀 ~ validateMultiple ~ req.body:", req.body);
+
+            let finalSchemas = {};
+
+            // 🔥 Case 1: Direct Joi schema passed
+            if (schemas?.isJoi) {
+                finalSchemas = { body: schemas }; // auto-wrap
+            }
+            // 🔥 Case 2: Object like { body: schema } passed
+            else if (typeof schemas === "object") {
+                finalSchemas = schemas;
+            } else {
+                throw new AppError("Invalid validation schema", 500);
+            }
+
+            // 🔥 Loop through all schema types (body, query, params)
+            for (const [property, schema] of Object.entries(finalSchemas)) {
 
                 if (schema && req[property]) {
 
-                    if (property === 'query' && Object.keys(req[property]).length === 0) {
+                    // Skip empty query
+                    if (property === "query" && Object.keys(req[property]).length === 0) {
                         continue;
                     }
 
@@ -19,8 +36,8 @@ export const validateMultiple = (schemas) => {
 
                     if (error) {
                         const errorMessage = error.details
-                            .map(detail => detail.message.replace(/"/g, ""))
-                            .join(', ');
+                            .map((detail) => detail.message.replace(/"/g, ""))
+                            .join(", ");
 
                         return res.status(400).json({
                             success: false,

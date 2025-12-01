@@ -1,14 +1,12 @@
-import { ApiResponse } from "../../../utils/common/ApiResponse.js";
 import { AppError } from "../../../utils/common/AppError.js";
 import { generateToken } from "../../../utils/common/token.js";
-import { wrapAllAsync } from "../../../utils/common/wrapAllAsync.js"
 import { userAuth_repositories } from "../repositories/auth.repositories.js"
 import crypto from "crypto";
 
 async function userRegister(data) {
-    // console.log(data, "body 2");
+    console.log(data, "body 2");
     const exists = await userAuth_repositories.isExist(data);
-    // console.log("🚀 ~ userRegister ~ isExist:", exists)
+    console.log("🚀 ~ userRegister ~ isExist:", exists)
     if (exists) {
         // ❌ do NOT use res
         // just THROW error
@@ -33,8 +31,10 @@ async function userLogin(data) {
 
 }
 
-async function changePassword(data) {
-
+async function changePassword(id, data) {
+    console.log("🚀 ~ changePassword ~ id:", id)
+    console.log("🚀 ~ changePassword ~ data: -1", data)
+    
 }
 
 async function userProfile() {

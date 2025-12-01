@@ -39,10 +39,13 @@ function validationLogin() {
 
 function validationChangrPassword() {
     const schema = Joi.object({
-        password: Joi.string().min(6).required(),
+        oldPassword: Joi.string().min(6).required(),
+        newPassword: Joi.string().min(6).required(),
     })
     return schema;
 }
+
+
 
 export const userAuthValidation = {
     validateRegister: validateRegister(),

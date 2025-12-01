@@ -2,16 +2,19 @@ import express from "express";
 import { userAuth_controller } from "../controller/auth.controller.js"
 import { userAuthValidation } from "../validation/auth.validation.js";
 import { validateMultiple } from "../../../middleware/validateMultiple.js";
+import { authenticate } from "../../../middleware/authMiddleware.js";
 
 const router = express.Router();
 
 router.post("/register",
-    validateMultiple({ body: userAuthValidation.validateRegister }),
+    validateMultiple(userAuthValidation.validateRegister),
     userAuth_controller.userRegister);
 
 router.post("/login",
-    validateMultiple({ body: userAuthValidation.validationLogin }),
+    validateMultiple(userAuthValidation.validationLogin),
     userAuth_controller.userLogin);
+
+router.use(authenticate());
 
 router.post("/change-password",
     validateMultiple({ body: userAuthValidation.validationChangrPassword }),

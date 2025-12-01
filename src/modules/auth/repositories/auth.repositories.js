@@ -11,7 +11,7 @@ async function userRegister(data) {
 }
 
 async function isExist(data) {
-    // console.log("🚀 ~ isExist ~ data:", data)
+    console.log("🚀 ~ isExist ~ data:", data)
     const user = await BaseAuth.findOne({
         $or: [
             { email: data.email },
@@ -19,12 +19,13 @@ async function isExist(data) {
             { userName: data.userName }
         ]
     });
-    // console.log("🚀 ~ isExist ~ user:", user)
+    console.log("🚀 ~ isExist ~ user:", user)
     // console.log("🚀 ~ isExist ~ user:", !!user)
     return !!user;
 }
 
 async function userLogin(email, phone, userName, hashPassword) {
+    console.log("🚀 ~ userLogin ~ email, phone, userName, hashPassword:", email, phone, userName, hashPassword)
 
     //1. Find user
     const user = await BaseAuth.findOne({
@@ -34,7 +35,7 @@ async function userLogin(email, phone, userName, hashPassword) {
             { phone: phone }
         ]
     });
-    // console.log("🚀 ~ userLogin ~ user:", user)
+    console.log("🚀 ~ userLogin ~ user:", user)
     if (!user) {
         throw new AppError("User not found", 404)
     }
