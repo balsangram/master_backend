@@ -17,11 +17,13 @@ router.post("/login",
 router.use(authenticate());
 
 router.post("/change-password",
-    validateMultiple({ body: userAuthValidation.validationChangrPassword }),
+    validateMultiple(userAuthValidation.validationChangrPassword),
     userAuth_controller.changePassword);
 
 router.get("/profile", userAuth_controller.userProfile);
-router.patch("/edit-profile", userAuth_controller.editProfile);
+router.patch("/edit-profile",
+    validateMultiple(userAuthValidation.validationEditProfile),
+    userAuth_controller.editProfile);
 router.get("/logout", userAuth_controller.logout);
 router.delete("/delete-user", userAuth_controller.deleteUser);
 

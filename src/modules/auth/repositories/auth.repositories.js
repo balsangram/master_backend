@@ -11,7 +11,7 @@ async function userRegister(data) {
 }
 
 async function isExist(data) {
-    console.log("🚀 ~ isExist ~ data:", data)
+    // console.log("🚀 ~ isExist ~ data:", data)
     const user = await BaseAuth.findOne({
         $or: [
             { email: data.email },
@@ -19,13 +19,13 @@ async function isExist(data) {
             { userName: data.userName }
         ]
     });
-    console.log("🚀 ~ isExist ~ user:", user)
+    // console.log("🚀 ~ isExist ~ user:", user)
     // console.log("🚀 ~ isExist ~ user:", !!user)
     return !!user;
 }
 
 async function userLogin(email, phone, userName, hashPassword) {
-    console.log("🚀 ~ userLogin ~ email, phone, userName, hashPassword:", email, phone, userName, hashPassword)
+    // console.log("🚀 ~ userLogin ~ email, phone, userName, hashPassword:", email, phone, userName, hashPassword)
 
     //1. Find user
     const user = await BaseAuth.findOne({
@@ -35,7 +35,7 @@ async function userLogin(email, phone, userName, hashPassword) {
             { phone: phone }
         ]
     });
-    console.log("🚀 ~ userLogin ~ user:", user)
+    // console.log("🚀 ~ userLogin ~ user:", user)
     if (!user) {
         throw new AppError("User not found", 404)
     }
@@ -51,30 +51,64 @@ async function userLogin(email, phone, userName, hashPassword) {
 
 }
 
-async function changePassword() {
-
+async function isSamePassword(id, hashOldPassword) {
+    // console.log("🚀 ~ isSamePassword ~ hashOldPassword:", id, hashOldPassword);
+    const userDettalis = await BaseAuth.findById(id);
+    // console.log("🚀 ~ isSamePassword ~ userDettalis:", userDettalis)
+    const existPassword = userDettalis.password
+    // console.log("🚀 ~ isSamePassword ~ existPassword:", existPassword)
+    // console.log("🚀 ~ isSamePassword ~ existPassword === hashOldPassword:--------------------", existPassword === hashOldPassword)
+    if (existPassword === hashOldPassword) {
+        return true;
+    }
+    return false;
 }
 
-async function userProfile() {
-
+async function isUserExist(id) {
+    // console.log("id : ", id);
+    const userIdExist = await BaseAuth.findById(id);
+    if (!userIdExist) {
+        throw new AppError("User not exist");
+    }
+    return true;
 }
 
-async function editProfile() {
+async function changePassword(id, hashNewPassword) {
+    // console.log("🚀 ~ changePassword ~ id, hashNewPassword:", id, hashNewPassword)
+    const userDetails = await BaseAuth.findById(id);
+    // console.log("🚀 ~ changePassword ~ userDetails:", userDetails)
+    const chagePassword = await BaseAuth.findByIdAndUpdate(id, { password: hashNewPassword }, { new: true })
+    // console.log("🚀 ~ changePassword ~ chagePassword:", chagePassword)
+}
 
+async function userProfile(id) {
+    // console.log("🚀 ~ userProfile ~ id:", id)
+    const userDetails = await BaseAuth.findById(id);
+    // console.log("🚀 ~ userProfile ~ userDetails:", userDetails)
+    return userDetails;
+}
+
+async function editProfile(id, data) {
+    // console.log("data", data);
+    // console.log("id", id);
+    await BaseAuth.findByIdAndUpdate(id, data);
 }
 
 async function logout() {
 
 }
 
-async function deleteUser() {
-
+async function deleteUser(id) {
+    // console.log("id: ", id)
+    const deleteUser = await BaseAuth.findByIdAndDelete(id);
 }
 
 export const userAuth_repositories = {
     userRegister,
     isExist,
     userLogin,
+    isSamePassword,
+    isUserExist,
     changePassword,
     userProfile,
     editProfile,

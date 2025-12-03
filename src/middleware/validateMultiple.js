@@ -3,16 +3,15 @@ import { AppError } from "../utils/common/AppError.js";
 export const validateMultiple = (schemas) => {
     return (req, res, next) => {
         try {
-            console.log("🚀 ~ validateMultiple ~ req.body:", req.body);
-
+            // console.log("🚀 ~ validateMultiple ~ req.body:", req.body);
+            // console.log("schemas:", schemas);
+            // console.log("type:", typeof schemas);
+            // console.log("isJoi:", schemas?.isJoi);
             let finalSchemas = {};
 
+            // console.log(`🚀 ~ validateMultiple ~ typeof schemas === "object":`, typeof schemas === "object")
             // 🔥 Case 1: Direct Joi schema passed
-            if (schemas?.isJoi) {
-                finalSchemas = { body: schemas }; // auto-wrap
-            }
-            // 🔥 Case 2: Object like { body: schema } passed
-            else if (typeof schemas === "object") {
+            if (typeof schemas === "object") {
                 finalSchemas = schemas;
             } else {
                 throw new AppError("Invalid validation schema", 500);

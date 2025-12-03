@@ -7,6 +7,11 @@ const options = {
 }
 const BaseAuthSchema = new mongoose.Schema(
     {
+        img: {
+            type: String,
+            required: false,
+            trim: true
+        },
         name: {
             type: String,
             required: false,
@@ -34,6 +39,11 @@ const BaseAuthSchema = new mongoose.Schema(
         password: {
             type: String,
             require: true,
+            trim: true
+        },
+        fcmToken:{
+            type: String,
+            required: false,
             trim: true
         }
     },

@@ -3,7 +3,7 @@ import { wrapAllAsync } from "../../../utils/common/wrapAllAsync.js"
 import { userAuth_services } from "../services/auth.services.js";
 
 async function userRegister(req, res, next) {
-    console.log(req.body, "body -1");
+    // console.log(req.body, "body -1");
     const result = await userAuth_services.userRegister(req.body);
     return res.status(201).json(new ApiResponse(201, result, "User Registered Sucessafully"));
 }
@@ -23,17 +23,25 @@ async function userLogin(req, res) {
 
 async function changePassword(req, res) {
     const id = req.user._id;
-    console.log("🚀 ~ changePassword ~ id:", id)
+    // console.log("🚀 ~ changePassword ~ id:", id)
     const result = await userAuth_services.changePassword(id, req.body);
     return res.status(201).json(new ApiResponse(201, result, "Password Change Sucessafully"));
 }
 
 async function userProfile(req, res) {
-
+    const id = req.user._id;
+    // console.log("ID :", id);
+    const result = await userAuth_services.userProfile(id);
+    // console.log("🚀 ~ userProfile ~ result :", result)
+    return res.status(200).json(new ApiResponse(200, result, "User DEtails Display sucessafully"));
 }
 
 async function editProfile(req, res) {
-
+    // console.log("🚀 ~ editProfile ~ req.body:", req.body)
+    const id = req.user._id;
+    // console.log("id: ", id);
+    const result = await userAuth_services.editProfile(id, req.body);
+    return res.status(200).json(new ApiResponse(200, "User Details Updated Sucessafullly"));
 }
 
 async function logout(req, res) {
@@ -41,7 +49,10 @@ async function logout(req, res) {
 }
 
 async function deleteUser(req, res) {
-
+    const id = req.user._id;
+    // console.log("id : ", id);
+    const result = await userAuth_services.deleteUser(id);
+    return res.status(200).json(new ApiResponse(200, "User Deleted Sucessafully"));
 }
 
 // applay asyncHandler in all function 
