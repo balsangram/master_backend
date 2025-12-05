@@ -2,6 +2,7 @@ import express from "express";
 import cors from "cors";
 import adminRoutes from "./modules/admin/router/admin.router.js";
 import authRouter from "./modules/auth/router/auth.router.js"
+import messageRouter from "./modules/message/router/message.message.js"
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.get('/', (req, res) => {
 
 app.use("/admin", adminRoutes);
 app.use("/auth", authRouter);
+app.use("/message", messageRouter);
 // app.use('/social',)
 
 export default app;

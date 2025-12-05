@@ -7,7 +7,7 @@ import { authenticate } from "../../../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.post("/register",
-    validateMultiple(userAuthValidation.validateRegister),
+    validateMultiple(userAuthValidation.validationRegister),
     userAuth_controller.userRegister);
 
 router.post("/login",

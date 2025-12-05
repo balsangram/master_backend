@@ -1,6 +1,6 @@
 import Joi from "joi";
 
-function validateRegister() {
+function validationRegister() {
     const schema = Joi.object({
         name: Joi.string().min(2).max(100).optional(),
         email: Joi.string().email().optional(),
@@ -59,7 +59,7 @@ function validationEditProfile() {
 
 
 export const userAuthValidation = {
-    validateRegister: validateRegister(),
+    validationRegister: validationRegister(),
     validationLogin: validationLogin(),
     validationChangrPassword: validationChangrPassword(),
     validationEditProfile: validationEditProfile(),
