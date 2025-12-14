@@ -3,13 +3,13 @@ import { wrapAllAsync } from "../../../utils/common/wrapAllAsync.js"
 import { userAuth_services } from "../services/auth.services.js";
 
 async function userRegister(req, res, next) {
-    // console.log(req.body, "body -1");
+    console.log(req.body, "body -1");
     const result = await userAuth_services.userRegister(req.body);
     return res.status(201).json(new ApiResponse(201, result, "User Registered Sucessafully"));
 }
 
 async function userLogin(req, res) {
-    // console.log("🚀 ~ userLogin ~ req:", req.body)
+    console.log("🚀 ~ userLogin ~ req:", req.body)
     const { user, token } = await userAuth_services.userLogin(req.body);
     // Set cookie
     res.cookie("auth_token", token, {
