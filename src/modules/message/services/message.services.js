@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import { AppError } from "../../../utils/common/AppError.js";
 import { userMessage_repositories } from "../repositories/message.repositories.js"
 
@@ -38,10 +39,19 @@ async function deleteMessages(messageId, senderId) {
 }
 
 
+async function displayAllMessages(userId) {
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    throw new Error("Invalid user ID");
+  }
+
+  return await userMessage_repositories.displayAllMessages(userId);
+}
+
 
 export const userMessage_services = {
     getUserMessages,
     sendMessages,
     editMessages,
-    deleteMessages
+    deleteMessages,
+    displayAllMessages
 }

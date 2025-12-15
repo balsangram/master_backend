@@ -34,9 +34,17 @@ async function deleteMessages(req, res) {
     return res.status(200).json(new ApiResponse(200, null, "Message deleted successfully"));
 }
 
+async function displayAllMessages(req,res) {
+    const userID = req.user._id;
+    console.log(userID,"userID");
+    const allMessages = await userMessage_services.displayAllMessages(userID);
+    return res.status(200).json(new ApiResponse(200,allMessages ,"All User Display Sucessafully"))
+}
+
 export const userMessage_controller = wrapAllAsync({
     getUserMessages,
     sendMessages,
     editMessages,
-    deleteMessages
+    deleteMessages,
+    displayAllMessages
 })

@@ -1,6 +1,7 @@
 import { Message } from "../model/message.model.js";
 import { Conversation } from "../model/Conversation.model.js";
 import { AppError } from "../../../utils/common/AppError.js";
+import mongoose from "mongoose";
 
 
 async function isConversation(conversationId) {
@@ -110,6 +111,28 @@ async function deleteMessages(messageId, senderId) {
     await Message.deleteOne({ _id: messageId, sender: senderId });
 }
 
+
+
+async function displayAllMessages(userId) {
+  console.log(userId, "userId");
+
+  // ✅ Validate userId
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    throw new Error("Invalid user ID");
+  }
+
+  const chats = await Conversation.find({
+    users: userId, // ✅ correct field
+  })
+    .populate("users", "name email phone img") // ✅ correct populate
+    .sort({ lastMessageTime: -1 });
+
+  console.log(chats, "chats");
+  return chats;
+}
+
+
+
 export const userMessage_repositories = {
     isConversation,
     getUserMessages,
@@ -118,5 +141,6 @@ export const userMessage_repositories = {
     sendMessages,
     editMessages,
     isMessageIdExist,
-    deleteMessages
+    deleteMessages,
+    displayAllMessages
 }

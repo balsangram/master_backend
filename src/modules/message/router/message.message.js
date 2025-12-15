@@ -25,6 +25,10 @@ router.delete("/delete-message/:messageId",
     userMessage_controller.deleteMessages
 )
 
+router.get("/display-all-messages",
+    userMessage_controller.displayAllMessages
+)
+
 // group message 
 // router.get()
 
