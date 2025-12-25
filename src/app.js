@@ -2,7 +2,7 @@ import express from "express";
 import cors from "cors";
 import adminRoutes from "./modules/admin/router/admin.router.js";
 import authRouter from "./modules/auth/router/auth.router.js"
-import messageRouter from "./modules/message/router/message.message.js"
+import messageRouter from "./modules/message/router/messagerouter.js"
 
 const app = express();
 

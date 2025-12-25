@@ -2,7 +2,7 @@ import { AppError } from "../../../utils/common/AppError.js";
 import { wrapAllAsync } from "../../../utils/common/wrapAllAsync.js";
 import { BaseAuth } from "../model/baseAuth.model.js";
 
-async function userRegister(data) {
+const userRegister = async(data) => {
     const user = await BaseAuth.create(data)
     // console.log("🚀 ~ userRegister ~ User:", user)
     if (!user) {
@@ -10,7 +10,7 @@ async function userRegister(data) {
     }
 }
 
-async function isExist(data) {
+const isExist = async(data) => {
     // console.log("🚀 ~ isExist ~ data:", data)
     const user = await BaseAuth.findOne({
         $or: [
@@ -24,8 +24,8 @@ async function isExist(data) {
     return !!user;
 }
 
-async function userLogin(email, phone, userName, hashPassword) {
-    // console.log("🚀 ~ userLogin ~ email, phone, userName, hashPassword:", email, phone, userName, hashPassword)
+const userLogin = async(email, phone, userName, hashPassword) => {
+    console.log("🚀 ~ userLogin ~ email, phone, userName, hashPassword:", email, phone, userName, hashPassword)
 
     //1. Find user
     const user = await BaseAuth.findOne({
@@ -51,7 +51,7 @@ async function userLogin(email, phone, userName, hashPassword) {
 
 }
 
-async function isSamePassword(id, hashOldPassword) {
+const isSamePassword = async(id, hashOldPassword) => {
     // console.log("🚀 ~ isSamePassword ~ hashOldPassword:", id, hashOldPassword);
     const userDettalis = await BaseAuth.findById(id);
     // console.log("🚀 ~ isSamePassword ~ userDettalis:", userDettalis)
@@ -64,7 +64,7 @@ async function isSamePassword(id, hashOldPassword) {
     return false;
 }
 
-async function isUserExist(id) {
+const isUserExist = async(id) => {
     // console.log("id : ", id);
     const userIdExist = await BaseAuth.findById(id);
     if (!userIdExist) {
@@ -73,7 +73,7 @@ async function isUserExist(id) {
     return true;
 }
 
-async function changePassword(id, hashNewPassword) {
+const changePassword = async(id, hashNewPassword) => {
     // console.log("🚀 ~ changePassword ~ id, hashNewPassword:", id, hashNewPassword)
     const userDetails = await BaseAuth.findById(id);
     // console.log("🚀 ~ changePassword ~ userDetails:", userDetails)
@@ -81,24 +81,24 @@ async function changePassword(id, hashNewPassword) {
     // console.log("🚀 ~ changePassword ~ chagePassword:", chagePassword)
 }
 
-async function userProfile(id) {
+const userProfile = async(id) => {
     // console.log("🚀 ~ userProfile ~ id:", id)
     const userDetails = await BaseAuth.findById(id);
     // console.log("🚀 ~ userProfile ~ userDetails:", userDetails)
     return userDetails;
 }
 
-async function editProfile(id, data) {
+const editProfile = async(id, data) => {
     // console.log("data", data);
     // console.log("id", id);
     await BaseAuth.findByIdAndUpdate(id, data);
 }
 
-async function logout() {
+const logout = async() => {
 
 }
 
-async function deleteUser(id) {
+const deleteUser = async(id) => {
     // console.log("id: ", id)
     const deleteUser = await BaseAuth.findByIdAndDelete(id);
 }

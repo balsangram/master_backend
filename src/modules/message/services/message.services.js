@@ -2,15 +2,13 @@ import mongoose from "mongoose";
 import { AppError } from "../../../utils/common/AppError.js";
 import { userMessage_repositories } from "../repositories/message.repositories.js"
 
-async function getUserMessages(conversationId, id) {
+ const getUserMessages = async (conversationId, id) => {
     await userMessage_repositories.isConversation(conversationId);
     const conversationDetails = await userMessage_repositories.getUserMessages(conversationId, id);
     return conversationDetails;
 }
-async function sendMessages(id, receiverId, message) {
-
+ const sendMessages = async (id, receiverId, message) =>{
     // console.log("🚀 ~ sendMessages ~ id, receiverId, message:", id, receiverId, message);
-
     // 1️⃣ Check if conversation exists
     let conversationId = await userMessage_repositories.checkConversation(id, receiverId);
     console.log("🚀 ~ sendMessages ~ existingConversation:", conversationId);
@@ -25,12 +23,12 @@ async function sendMessages(id, receiverId, message) {
     return conversationId; // optional
 }
 
-async function editMessages(messageId, message, senderId) {
-console.log("🚀 ~ editMessages ~ messageId, message:", messageId, message)
-await userMessage_repositories.isMessageIdExist(messageId);
+ const editMessages = async (messageId, message, senderId) => {
+    // console.log("🚀 ~ editMessages ~ messageId, message:", messageId, message)
+    await userMessage_repositories.isMessageIdExist(messageId);
     await userMessage_repositories.editMessages(messageId, message, senderId);
 }
-async function deleteMessages(messageId, senderId) {
+ const deleteMessages = async(messageId, senderId) => {
 
     // console.log("📌 Received messageId:", messageId);
 
@@ -39,7 +37,7 @@ async function deleteMessages(messageId, senderId) {
 }
 
 
-async function displayAllMessages(userId) {
+ const displayAllMessages = async (userId) => {
   if (!mongoose.Types.ObjectId.isValid(userId)) {
     throw new Error("Invalid user ID");
   }

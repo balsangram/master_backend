@@ -7,14 +7,15 @@ import { authenticate } from "../../../middleware/authMiddleware.js";
 const router = express.Router();
 
 
-router.use(authenticate());
+// router.use(authenticate());
+router.use(authenticate(["user"]));
 // end to end message 
 router.get("/display-message/:conversationId",
     userMessage_controller.getUserMessages)
 router.post("/send-message/:receiverId",
     validateMultiple(mnessageValidation.validationSendMesaage),
-    userMessage_controller.sendMessages)
-
+    userMessage_controller.sendMessages
+)
 router.patch(
     "/edit-message/:messageId",
     validateMultiple(mnessageValidation.validationEditMessage),

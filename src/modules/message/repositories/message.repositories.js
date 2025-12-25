@@ -4,7 +4,7 @@ import { AppError } from "../../../utils/common/AppError.js";
 import mongoose from "mongoose";
 
 
-async function isConversation(conversationId) {
+const isConversation = async(conversationId) => {
     console.log("🚀 ~ isConversation ~ conversationId:", conversationId)
     const isId = await Conversation.findById(conversationId);
     console.log("🚀 ~ isConversation ~ isId:", isId)
@@ -13,7 +13,7 @@ async function isConversation(conversationId) {
     }
 }
 
-async function getUserMessages(conversationId, userId) {
+const getUserMessages = async(conversationId, userId) => {
     const messages = await Message.find({ conversationId })
         .populate("sender", "name email avatar"); // populate only required fields
 
@@ -31,7 +31,7 @@ async function getUserMessages(conversationId, userId) {
     return formatted;
 }
 
-async function checkConversation(id, receiverId) {
+const checkConversation = async(id, receiverId) => {
     // console.log("🚀 ~ checkConversation ~ id, receiverId:", id, receiverId);
 
     const isConversation = await Conversation.findOne({
@@ -45,7 +45,7 @@ async function checkConversation(id, receiverId) {
     return isConversation._id;
 }
 
-async function createConversation(id, receiverId) {
+const createConversation = async(id, receiverId) => {
     // console.log("🚀 ~ createConversation ~ id, receiverId:", id, receiverId);
 
     const conversation = await Conversation.create({
@@ -62,7 +62,7 @@ async function createConversation(id, receiverId) {
     return conversation._id;
 }
 
-async function sendMessages(id, receiverId, message, conversationId) {
+const sendMessages = async(id, receiverId, message, conversationId)=> {
     // console.log("🚀 ~ sendMessages ~ id, receiverId, message, conversationId:",
     //     id, receiverId, message, conversationId
     // );
@@ -91,13 +91,13 @@ async function sendMessages(id, receiverId, message, conversationId) {
     return true;
 }
 
-async function editMessages(messageId, message, senderId) {
+const editMessages = async(messageId, message, senderId) =>{
     await Message.updateOne(
         { _id: messageId, sender: senderId },
         { $set: { message: message } }
     );
 }
-async function isMessageIdExist(messageId) {
+const isMessageIdExist = async(messageId) => {
 
     console.log("🚀 ~ isMessageIdExist ~ messageId:", messageId)
     const isMessage = await Message.findById(messageId);
@@ -107,13 +107,13 @@ async function isMessageIdExist(messageId) {
     }
     return true;
 }
-async function deleteMessages(messageId, senderId) {
+const deleteMessages = async(messageId, senderId) => {
     await Message.deleteOne({ _id: messageId, sender: senderId });
 }
 
 
 
-async function displayAllMessages(userId) {
+const displayAllMessages = async(userId) => {
   console.log(userId, "userId");
 
   // ✅ Validate userId

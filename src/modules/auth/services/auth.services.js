@@ -3,19 +3,17 @@ import { generateToken } from "../../../utils/common/token.js";
 import { userAuth_repositories } from "../repositories/auth.repositories.js"
 import crypto from "crypto";
 
-async function userRegister(data) {
-    // console.log(data, "body 2");
+const userRegister = async(data) => {
+    console.log(data, "body 2");
     const exists = await userAuth_repositories.isExist(data);
-    // console.log("🚀 ~ userRegister ~ isExist:", exists)
+    console.log("🚀 ~ userRegister ~ isExist:", exists)
     if (exists) {
-        // ❌ do NOT use res
-        // just THROW error
         throw new AppError("User already exists", 400);
     }
     const result = await userAuth_repositories.userRegister(data);
 }
 
-async function userLogin(data) {
+const userLogin = async(data) => {
     // console.log("🚀 ~ userLogin ~ data:", data)
     const { email, phone, userName, password } = data;
     // console.log("🚀 ~ userLogin ~ phone:", phone)
@@ -31,7 +29,7 @@ async function userLogin(data) {
 
 }
 
-async function changePassword(id, data) {
+const changePassword = async(id, data) => {
     const newPassword = data.newPassword;
     // console.log("🚀 ~ changePassword ~ newPassword:", newPassword)
     const oldPassword = data.oldPassword;
@@ -62,7 +60,7 @@ async function changePassword(id, data) {
 }
 
 
-async function userProfile(data) {
+const userProfile = async(data) => {
     console.log("DATA :", data)
     const id = data;
     const userDetails = await userAuth_repositories.userProfile(id);
@@ -70,7 +68,7 @@ async function userProfile(data) {
     return userDetails;
 }
 
-async function editProfile(id, data) {
+const editProfile = async(id, data) => {
     // console.log("data :", data);
     const isExist = await userAuth_repositories.isUserExist(id);
     if (!isExist) {
@@ -79,11 +77,11 @@ async function editProfile(id, data) {
     await userAuth_repositories.editProfile(id, data);
 }
 
-async function logout() {
+const logout = async() => {
 
 }
 
-async function deleteUser(data) {
+const deleteUser = async(data) => {
     // console.log("data : ", data);
     const id = data;
     if (id) {
