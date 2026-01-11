@@ -28,6 +28,7 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.19.3",
     "path": "^0.12.7",
-    "seed-js": "^0.0.11"
+    "seed-js": "^0.0.11",
+    "socket.io": "^4.8.3"
   }
 }

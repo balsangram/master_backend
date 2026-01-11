@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../../envConfig.js";
+import { JWT_SECRET } from "../../config/envConfig.js";
 
 export function generateToken(user) {
     return jwt.sign(

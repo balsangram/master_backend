@@ -55,7 +55,7 @@
 import jwt from "jsonwebtoken";
 import { AppError } from "../utils/common/AppError.js";
 import { BaseAuth } from "../modules/auth/model/baseAuth.model.js";
-import { JWT_SECRET } from "../envConfig.js";
+import { JWT_SECRET } from "../config/envConfig.js";
 
 // ---------------------------------------
 // 🔐 AUTH MIDDLEWARE (ROLE BASED)
