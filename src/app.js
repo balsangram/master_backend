@@ -13,7 +13,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cors({ origin: true, credential: true }))
 
 app.get('/', (req, res) => {
-    res.send("Welcome to Hell")
+    res.send("Welcome to master backend")
 })
 
 app.use("/admin", adminRoutes);

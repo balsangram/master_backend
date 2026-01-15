@@ -1,9 +1,9 @@
 import { AppError } from "../../../utils/common/AppError.js";
-import { generateToken } from "../../../utils/common/token.js";
+import { generateRefreshToken, generateToken } from "../../../utils/common/token.js";
 import { userAuth_repositories } from "../repositories/auth.repositories.js"
 import crypto from "crypto";
 
-const userRegister = async(data) => {
+const userRegister = async (data) => {
     console.log(data, "body 2");
     const exists = await userAuth_repositories.isExist(data);
     console.log("🚀 ~ userRegister ~ isExist:", exists)
@@ -13,7 +13,7 @@ const userRegister = async(data) => {
     const result = await userAuth_repositories.userRegister(data);
 }
 
-const userLogin = async(data) => {
+const userLogin = async (data) => {
     // console.log("🚀 ~ userLogin ~ data:", data)
     const { email, phone, userName, password } = data;
     // console.log("🚀 ~ userLogin ~ phone:", phone)
@@ -21,15 +21,17 @@ const userLogin = async(data) => {
     // console.log("🚀 ~ userLogin ~ hashPassword:", hashPassword)
 
     const user = await userAuth_repositories.userLogin(email, phone, userName, hashPassword);
-    const token = generateToken(user);
+    const accessToken = generateToken(user);
+    const refreshToken = generateRefreshToken (user);
+
 
     return {
-        user, token
+        user, accessToken, refreshToken
     }
 
 }
 
-const changePassword = async(id, data) => {
+const changePassword = async (id, data) => {
     const newPassword = data.newPassword;
     // console.log("🚀 ~ changePassword ~ newPassword:", newPassword)
     const oldPassword = data.oldPassword;
@@ -60,7 +62,7 @@ const changePassword = async(id, data) => {
 }
 
 
-const userProfile = async(data) => {
+const userProfile = async (data) => {
     console.log("DATA :", data)
     const id = data;
     const userDetails = await userAuth_repositories.userProfile(id);
@@ -68,7 +70,7 @@ const userProfile = async(data) => {
     return userDetails;
 }
 
-const editProfile = async(id, data) => {
+const editProfile = async (id, data) => {
     // console.log("data :", data);
     const isExist = await userAuth_repositories.isUserExist(id);
     if (!isExist) {
@@ -77,11 +79,11 @@ const editProfile = async(id, data) => {
     await userAuth_repositories.editProfile(id, data);
 }
 
-const logout = async() => {
+const logout = async () => {
 
 }
 
-const deleteUser = async(data) => {
+const deleteUser = async (data) => {
     // console.log("data : ", data);
     const id = data;
     if (id) {
