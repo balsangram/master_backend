@@ -18,6 +18,7 @@ import { userMessage_services } from "../services/message.services.js";
     const { message } = req.body;
     // console.log("🚀 ~ sendMessages ~ receiverId , message:", receiverId, message)
     await userMessage_services.sendMessages(id, receiverId, message)
+
     return res.status(201).json(new ApiResponse("Message send sucessafully", 201))
 })
 const editMessages = asyncHandler(async(req, res) => {
@@ -25,7 +26,7 @@ const editMessages = asyncHandler(async(req, res) => {
     const message = req.body.message;
     const senderId = req.user._id;
     await userMessage_services.editMessages(messageId, message, senderId);
-    return res.status(200).json(new ApiResponse(200, null, "Message edited successfully"));
+    return res.status(200).json(new ApiResponse(200,null, "Message edited successfully"));
 })
 const deleteMessages = asyncHandler(async(req, res)=> {
     const messageId = req.params.messageId;

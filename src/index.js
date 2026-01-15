@@ -4,6 +4,7 @@ import { PORT } from "./config/envConfig.js"
 import { seeder } from "./seeder/index.js";
 import {createServer} from "http"
 import { connectDB } from "./config/db.js";
+import { initSocket } from "./socket/index.js";
 
 const app = express();
 const server = createServer(app);
@@ -16,6 +17,9 @@ async function startServer() {
     if (process.env.NODE_ENV !== "production") {
         await seeder()
     }
+    initSocket(server);
+
+    
         server.listen(PORT, () => {
             console.log(`Server running on port ${PORT}`);
         })
