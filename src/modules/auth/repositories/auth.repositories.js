@@ -46,32 +46,23 @@ const isExist = async (data) => {
 };
 
 
-const userLogin = async (email, phone, userName, hashPassword) => {
-    console.log("🚀 ~ userLogin ~ email, phone, userName, hashPassword:", email, phone, userName, hashPassword)
+const userLogin = async (email, phone, userName) => {
 
-    //1. Find user
     const user = await BaseAuth.findOne({
         $or: [
-            { userName: userName },
-            { email: email },
-            { phone: phone }
+            { userName },
+            { email },
+            { phone }
         ]
     });
-    // console.log("🚀 ~ userLogin ~ user:", user)
-    if (!user) {
-        throw new AppError("User not found", 404)
-    }
 
-    //2 compare password with bcrypt
-    const isMatch = hashPassword == user.password;
-    console.log("🚀 ~ userLogin ~ user.password and hashPassword:", user.password, hashPassword)
-    if (!isMatch) {
-        throw new AppError("Invalid password", 401)
+    if (!user) {
+        throw new AppError("User not found", 404);
     }
 
     return user;
+};
 
-}
 
 const isSamePassword = async (id, hashOldPassword) => {
     // console.log("🚀 ~ isSamePassword ~ hashOldPassword:", id, hashOldPassword);

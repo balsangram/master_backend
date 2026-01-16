@@ -11,7 +11,9 @@ const userRegister = asyncHandler(async (req, res, next) => {
 
 const userLogin = asyncHandler(async (req, res) => {
     console.log("🚀 ~ userLogin ~ req:", req.body)
-    const { user, accessToken, refreshToken } = await userAuth_services.userLogin(req.body);
+    const user = await userAuth_services.userLogin(req.body);
+    console.log(user,"user");
+    
     // Set cookie
     // res.cookie("auth_token", token, {
     //     httpOnly: true,
@@ -19,7 +21,7 @@ const userLogin = asyncHandler(async (req, res) => {
     //     sameSite: "lax",
     //     maxAge: 7 * 24 * 60 * 60 * 1000
     // });
-    return res.status(201).json(new ApiResponse(201, { user, accessToken, refreshToken }, "User Login Sucessafully"));
+    return res.status(201).json(new ApiResponse(201, { user }, "User Login Sucessafully"));
 })
 
 const changePassword = asyncHandler(async (req, res) => {

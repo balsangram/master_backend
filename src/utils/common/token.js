@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import { JWT_SECRET } from "../../config/envConfig.js";
+import { JWT_SECRET ,JWT_REFRESH_SECRET} from "../../config/envConfig.js";
 
 export function generateToken(user) {
     return jwt.sign(
@@ -18,7 +18,7 @@ export function generateRefreshToken(user) {
         {
             id: user._id
         },
-        process.env.JWT_REFRESH_SECRET,
+        JWT_REFRESH_SECRET,
         { expiresIn: "7d" }
     );
 }
