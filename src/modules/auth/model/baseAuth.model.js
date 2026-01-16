@@ -41,7 +41,7 @@ const BaseAuthSchema = new mongoose.Schema(
             require: true,
             trim: true
         },
-        fcmToken:{
+        fcmToken: {
             type: String,
             required: false,
             trim: true

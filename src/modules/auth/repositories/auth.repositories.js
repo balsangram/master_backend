@@ -2,29 +2,51 @@ import { AppError } from "../../../utils/common/AppError.js";
 import { wrapAllAsync } from "../../../utils/common/wrapAllAsync.js";
 import { BaseAuth } from "../model/baseAuth.model.js";
 
-const userRegister = async(data) => {
+const userRegister = async (data) => {
+    console.log("🚀 ~ userRegister ~ data:", data)
     const user = await BaseAuth.create(data)
     // console.log("🚀 ~ userRegister ~ User:", user)
+    console.log("userRegister execute sucessafully");
+
     if (!user) {
         throw new AppError("User registration failed. Please try again later.", 500);
     }
+    return user
 }
 
-const isExist = async(data) => {
-    // console.log("🚀 ~ isExist ~ data:", data)
+const isExist = async (data) => {
+    console.log("🚀 ~ isExist ~ data:", data);
+
+    const conditions = [];
+
+    // check email OR phone (never both)
+    if (data.email) {
+        conditions.push({ email: data.email });
+    }
+
+    if (data.phone) {
+        conditions.push({ phone: data.phone });
+    }
+
+    // username check (always)
+    if (data.username) {
+        conditions.push({ username: data.username });
+    }
+
+    if (conditions.length === 0) {
+        return false;
+    }
+
     const user = await BaseAuth.findOne({
-        $or: [
-            { email: data.email },
-            { phone: data.phone },
-            { userName: data.userName }
-        ]
+        $or: conditions,
     });
-    // console.log("🚀 ~ isExist ~ user:", user)
-    // console.log("🚀 ~ isExist ~ user:", !!user)
-    return !!user;
-}
 
-const userLogin = async(email, phone, userName, hashPassword) => {
+    console.log("🚀 ~ isExist ~ user:", user);
+    return !!user;
+};
+
+
+const userLogin = async (email, phone, userName, hashPassword) => {
     console.log("🚀 ~ userLogin ~ email, phone, userName, hashPassword:", email, phone, userName, hashPassword)
 
     //1. Find user
@@ -42,7 +64,7 @@ const userLogin = async(email, phone, userName, hashPassword) => {
 
     //2 compare password with bcrypt
     const isMatch = hashPassword == user.password;
-
+    console.log("🚀 ~ userLogin ~ user.password and hashPassword:", user.password, hashPassword)
     if (!isMatch) {
         throw new AppError("Invalid password", 401)
     }
@@ -51,7 +73,7 @@ const userLogin = async(email, phone, userName, hashPassword) => {
 
 }
 
-const isSamePassword = async(id, hashOldPassword) => {
+const isSamePassword = async (id, hashOldPassword) => {
     // console.log("🚀 ~ isSamePassword ~ hashOldPassword:", id, hashOldPassword);
     const userDettalis = await BaseAuth.findById(id);
     // console.log("🚀 ~ isSamePassword ~ userDettalis:", userDettalis)
@@ -64,7 +86,7 @@ const isSamePassword = async(id, hashOldPassword) => {
     return false;
 }
 
-const isUserExist = async(id) => {
+const isUserExist = async (id) => {
     // console.log("id : ", id);
     const userIdExist = await BaseAuth.findById(id);
     if (!userIdExist) {
@@ -73,7 +95,7 @@ const isUserExist = async(id) => {
     return true;
 }
 
-const changePassword = async(id, hashNewPassword) => {
+const changePassword = async (id, hashNewPassword) => {
     // console.log("🚀 ~ changePassword ~ id, hashNewPassword:", id, hashNewPassword)
     const userDetails = await BaseAuth.findById(id);
     // console.log("🚀 ~ changePassword ~ userDetails:", userDetails)
@@ -81,24 +103,24 @@ const changePassword = async(id, hashNewPassword) => {
     // console.log("🚀 ~ changePassword ~ chagePassword:", chagePassword)
 }
 
-const userProfile = async(id) => {
+const userProfile = async (id) => {
     // console.log("🚀 ~ userProfile ~ id:", id)
     const userDetails = await BaseAuth.findById(id);
     // console.log("🚀 ~ userProfile ~ userDetails:", userDetails)
     return userDetails;
 }
 
-const editProfile = async(id, data) => {
+const editProfile = async (id, data) => {
     // console.log("data", data);
     // console.log("id", id);
     await BaseAuth.findByIdAndUpdate(id, data);
 }
 
-const logout = async() => {
+const logout = async () => {
 
 }
 
-const deleteUser = async(id) => {
+const deleteUser = async (id) => {
     // console.log("id: ", id)
     const deleteUser = await BaseAuth.findByIdAndDelete(id);
 }

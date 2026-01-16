@@ -2,7 +2,7 @@ import express from "express";
 import AppRouter from "./app.js"
 import { PORT } from "./config/envConfig.js"
 import { seeder } from "./seeder/index.js";
-import {createServer} from "http"
+import { createServer } from "http"
 import { connectDB } from "./config/db.js";
 import { initSocket } from "./socket/index.js";
 

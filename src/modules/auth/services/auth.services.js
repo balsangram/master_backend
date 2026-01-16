@@ -18,11 +18,11 @@ const userLogin = async (data) => {
     const { email, phone, userName, password } = data;
     // console.log("🚀 ~ userLogin ~ phone:", phone)
     const hashPassword = crypto.createHash("sha256").update(password).digest("hex");
-    // console.log("🚀 ~ userLogin ~ hashPassword:", hashPassword)
+    console.log("🚀 ~ userLogin ~ hashPassword:", hashPassword)
 
     const user = await userAuth_repositories.userLogin(email, phone, userName, hashPassword);
     const accessToken = generateToken(user);
-    const refreshToken = generateRefreshToken (user);
+    const refreshToken = generateRefreshToken(user);
 
 
     return {
