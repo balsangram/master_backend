@@ -47,14 +47,30 @@ const isExist = async (data) => {
 
 
 const userLogin = async (email, phone, userName) => {
+console.log(email, phone, userName,"email, phone, userName")
+    const query = [];
 
-    const user = await BaseAuth.findOne({
-        $or: [
-            { userName },
-            { email },
-            { phone }
-        ]
-    });
+    if (userName) query.push({ userName: userName.trim() });
+    if (email) query.push({ email: email.trim().toLowerCase() });
+    if (phone) query.push({ phone: phone.trim() });
+
+    if (query.length === 0) {
+        throw new AppError("Login identifier required", 400);
+    }
+console.log(query ,"query")
+    const user = await BaseAuth.findOne({ $or: query });
+console.log(user,"user")
+    if (!user) {
+        throw new AppError("User not found", 404);
+    }
+
+    return user;
+};
+
+
+const userLoginId = async (id) => {
+
+    const user = await BaseAuth.findById(id);
 
     if (!user) {
         throw new AppError("User not found", 404);
@@ -64,18 +80,7 @@ const userLogin = async (email, phone, userName) => {
 };
 
 
-const isSamePassword = async (id, hashOldPassword) => {
-    // console.log("🚀 ~ isSamePassword ~ hashOldPassword:", id, hashOldPassword);
-    const userDettalis = await BaseAuth.findById(id);
-    // console.log("🚀 ~ isSamePassword ~ userDettalis:", userDettalis)
-    const existPassword = userDettalis.password
-    // console.log("🚀 ~ isSamePassword ~ existPassword:", existPassword)
-    // console.log("🚀 ~ isSamePassword ~ existPassword === hashOldPassword:--------------------", existPassword === hashOldPassword)
-    if (existPassword === hashOldPassword) {
-        return true;
-    }
-    return false;
-}
+
 
 const isUserExist = async (id) => {
     // console.log("id : ", id);
@@ -86,11 +91,11 @@ const isUserExist = async (id) => {
     return true;
 }
 
-const changePassword = async (id, hashNewPassword) => {
+const changePassword = async (id, newPassword) => {
     // console.log("🚀 ~ changePassword ~ id, hashNewPassword:", id, hashNewPassword)
     const userDetails = await BaseAuth.findById(id);
     // console.log("🚀 ~ changePassword ~ userDetails:", userDetails)
-    const chagePassword = await BaseAuth.findByIdAndUpdate(id, { password: hashNewPassword }, { new: true })
+    const chagePassword = await BaseAuth.findByIdAndUpdate(id, { password: newPassword })
     // console.log("🚀 ~ changePassword ~ chagePassword:", chagePassword)
 }
 
@@ -120,7 +125,7 @@ export const userAuth_repositories = {
     userRegister,
     isExist,
     userLogin,
-    isSamePassword,
+    userLoginId,
     isUserExist,
     changePassword,
     userProfile,

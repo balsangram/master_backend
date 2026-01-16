@@ -65,7 +65,10 @@ BaseAuthSchema.pre("save", function (next) {
 
 // 🔍 Compare entered password with hashed password
 BaseAuthSchema.methods.comparePassword = function (enteredPassword) {
+    console.log(enteredPassword,"enteredPassword")
     const hashed = hashPassword(enteredPassword);
+    console.log("hashed",hashed)
+    console.log("this.password",this.password)
     return hashed === this.password;
 };
 

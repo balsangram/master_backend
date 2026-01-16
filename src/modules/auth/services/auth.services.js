@@ -14,48 +14,52 @@ const userRegister = async (data) => {
 }
 
 const userLogin = async (data) => {
-    // console.log("🚀 ~ userLogin ~ data:", data)
     const { email, phone, userName, password } = data;
-    // console.log("🚀 ~ userLogin ~ phone:", phone)
-    const hashPassword = crypto.createHash("sha256").update(password).digest("hex");
-    console.log("🚀 ~ userLogin ~ hashPassword:", hashPassword)
 
-    const user = await userAuth_repositories.userLogin(email, phone, userName, hashPassword);
+    const user = await userAuth_repositories.userLogin(
+        email,
+        phone,
+        userName
+    );
+
+    // 🔍 Compare using schema method
+    const isMatch = user.comparePassword(password);
+
+    if (!isMatch) {
+        throw new Error("Invalid password");
+    }
+
     const accessToken = generateToken(user);
     const refreshToken = generateRefreshToken(user);
 
+    return { user, accessToken, refreshToken };
+};
 
-    return {
-        user, accessToken, refreshToken
-    }
-
-}
 
 const changePassword = async (id, data) => {
     const newPassword = data.newPassword;
-    // console.log("🚀 ~ changePassword ~ newPassword:", newPassword)
+    console.log("🚀 ~ changePassword ~ newPassword:", data)
     const oldPassword = data.oldPassword;
-    // console.log("🚀 ~ changePassword ~ oldPassword:", oldPassword)
-
-    const hashNewPassword = crypto.createHash("sha256").update(newPassword).digest("hex");
-    // console.log("🚀 ~ changePassword ~ hashNewPassword:", hashNewPassword)
-    const hashOldPassword = crypto.createHash("sha256").update(oldPassword).digest("hex");
-    // console.log("🚀 ~ changePassword ~ hashOldPassword:", hashOldPassword)
 
     // 1. Same password check
     if (oldPassword === newPassword) {
         throw new AppError("old and new password should not be same", 400);
     }
 
+    const user = await userAuth_repositories.userLoginId(
+        id
+    );
     // 2. Check old password
-    const matchPassword = await userAuth_repositories.isSamePassword(id, hashOldPassword);
-
-    if (!matchPassword) {
-        throw new AppError("Old password is incorrect", 400);
+    const isMatch = user.comparePassword(oldPassword);
+    console.log("isMatch", isMatch)
+    if (!isMatch) {
+        throw new Error("Invalid password");
     }
 
+    console.log(id, "id", "newPassword", newPassword)
+
     // 3. Update password
-    await userAuth_repositories.changePassword(id, hashNewPassword);
+    await userAuth_repositories.changePassword(id, newPassword);
 
     // 4. Return success
     return "Password changed successfully";

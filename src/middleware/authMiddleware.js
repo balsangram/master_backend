@@ -79,8 +79,8 @@ export const authenticate = (allowedRoles = []) => {
       if (!user) {
         return next(new AppError("User not found", 401));
       }
-
-      if (allowedRoles.length && !allowedRoles.includes(user.role)) {
+console.log(decoded.role,"decoded.role")
+      if (allowedRoles.length && !allowedRoles.includes(decoded.role)) {
         return next(new AppError("Forbidden: Insufficient permissions", 403));
       }
 

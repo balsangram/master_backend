@@ -13,14 +13,6 @@ const userLogin = asyncHandler(async (req, res) => {
     console.log("🚀 ~ userLogin ~ req:", req.body)
     const user = await userAuth_services.userLogin(req.body);
     console.log(user,"user");
-    
-    // Set cookie
-    // res.cookie("auth_token", token, {
-    //     httpOnly: true,
-    //     secure: false,
-    //     sameSite: "lax",
-    //     maxAge: 7 * 24 * 60 * 60 * 1000
-    // });
     return res.status(201).json(new ApiResponse(201, { user }, "User Login Sucessafully"));
 })
 
@@ -28,7 +20,7 @@ const changePassword = asyncHandler(async (req, res) => {
     const id = req.user._id;
     // console.log("🚀 ~ changePassword ~ id:", id)
     const result = await userAuth_services.changePassword(id, req.body);
-    return res.status(201).json(new ApiResponse(201, result, "Password Change Sucessafully"));
+    return res.status(201).json(new ApiResponse(201, null, "Password Change Sucessafully"));
 })
 
 const userProfile = asyncHandler(async (req, res) => {
@@ -44,7 +36,7 @@ const editProfile = asyncHandler(async (req, res) => {
     const id = req.user._id;
     // console.log("id: ", id);
     const result = await userAuth_services.editProfile(id, req.body);
-    return res.status(200).json(new ApiResponse(200, "User Details Updated Sucessafullly"));
+    return res.status(200).json(new ApiResponse(200, null ,"User Details Updated Sucessafullly"));
 })
 
 const logout = asyncHandler(async (req, res) => {
