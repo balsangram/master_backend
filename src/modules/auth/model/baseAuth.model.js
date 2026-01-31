@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import crypto from "crypto";
+import bcrypt from "bcrypt";
 
 const options = {
     discriminatorKey: "role",
@@ -52,7 +52,7 @@ const BaseAuthSchema = new mongoose.Schema(
 
 // 🔐 Function to hash password using Node's native crypto
 function hashPassword(password) {
-    return crypto.createHash("sha256").update(password).digest("hex");
+    return bcrypt.createHash("sha256").update(password).digest("hex");
 }
 
 // 🔥 Pre-save hook to hash password

@@ -2,6 +2,7 @@ import * as dotenv from 'dotenv';
 dotenv.config();
 
 const PORT = process.env.PORT;
+const MONGODB_URI = process.env.MONGODB_URI;
 const DB_NAME = process.env.DB_NAME;
 const CORS_ORIGIN = process.env.CORS_ORIGIN;
 const DB_USERNAME = process.env.DB_USERNAME;
@@ -13,6 +14,7 @@ const JWT_EXPIRES = process.env.JWT_EXPIRES;
 
 export {
     PORT,
+    MONGODB_URI,
     DB_NAME,
     CORS_ORIGIN,
     DB_USERNAME,
