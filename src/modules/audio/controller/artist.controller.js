@@ -1,8 +1,13 @@
+import { ApiResponse } from "../../../utils/common/ApiResponse";
 import { asyncHandler } from "../../../utils/common/asyncHandler";
+import {artist_services} from "../services/artist.services"
+export const getAllArtistsController = asyncHandler(async (req, res) => {
+  const allArtists = await artist_services.getAllArtists();
 
-const displayArtists = asyncHandler(async (req, res) => {
-
-})
+  return res
+    .status(200)
+    .json(ApiResponse(200, allArtists, "All artists displayed"));
+});
 
 const addNewArtists = asyncHandler(async (req, res) => {
 

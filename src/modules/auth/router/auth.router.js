@@ -3,6 +3,7 @@ import { userAuth_controller } from "../controller/auth.controller.js";
 import { userAuthValidation } from "../validation/auth.validation.js";
 import { validateMultiple } from "../../../middleware/validateMultiple.js";
 import { authenticate } from "../../../middleware/authMiddleware.js";
+import { googleLoginController } from "../controller/google.auth.controller.js";
 
 const router = express.Router();
 
@@ -18,6 +19,7 @@ router.post(
   validateMultiple(userAuthValidation.validationLogin),
   userAuth_controller.userLogin
 );
+router.post('/google-login',googleLoginController)
 
 // ================= AUTHENTICATED USER ROUTES =================
 router.use(authenticate(["user"])); // any logged-in user

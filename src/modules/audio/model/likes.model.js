@@ -3,15 +3,15 @@ import mongoose from "mongoose";
 
 const likesSchema = new mongoose.Schema({
 user:{
-    types:mongoose.Schema.Types.ObjectId,
+    type:mongoose.Schema.Types.ObjectId,
     ref:"BaseAuth"
 },
 likesSong:{
-    types:mongoose.Schema.Types.ObjectId,
+    type:mongoose.Schema.Types.ObjectId,
     ref:"Audio"
 },
 likesPlayList:{
-    types:mongoose.Schema.Types.ObjectId,
+    type:mongoose.Schema.Types.ObjectId,
     req:"PlayList"
 },
 

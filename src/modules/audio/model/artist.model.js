@@ -4,16 +4,16 @@ import mongoose from "mongoose";
 const artistSchema = new mongoose.Schema(
     {
         name:{
-            types:String,
+            type:String,
             required: true
         },
-        audio:[
-            {
-            types:mongoose.Schema.Types.ObjectId,
-            ref:"Audio"
-        }],
+        // audio:[
+        //     {
+        //     type:mongoose.Schema.Types.ObjectId,
+        //     ref:"Audio"
+        // }],
         img:{
-            types:String,
+            type:String,
             require:false
         }
     }

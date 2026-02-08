@@ -45,7 +45,13 @@ const BaseAuthSchema = new mongoose.Schema(
             type: String,
             required: false,
             trim: true
-        }
+        },
+        googleId: String,
+        authProvider: {
+            type: String,
+            enum: ["local", "google"],
+            default: "local",
+        },
     },
     options
 )
@@ -56,20 +62,19 @@ function hashPassword(password) {
 }
 
 // 🔥 Pre-save hook to hash password
-BaseAuthSchema.pre("save", function (next) {
+const SALT_ROUNDS = 10;
+
+// 🔥 Pre-save hook
+BaseAuthSchema.pre("save", async function (next) {
     if (!this.isModified("password")) return next();
 
-    this.password = hashPassword(this.password);
+    this.password = await bcrypt.hash(this.password, SALT_ROUNDS);
     next();
 });
 
-// 🔍 Compare entered password with hashed password
-BaseAuthSchema.methods.comparePassword = function (enteredPassword) {
-    console.log(enteredPassword,"enteredPassword")
-    const hashed = hashPassword(enteredPassword);
-    console.log("hashed",hashed)
-    console.log("this.password",this.password)
-    return hashed === this.password;
-};
+// 🔍 Compare password
+BaseAuthSchema.methods.comparePassword = async function (enteredPassword) {
+    return await bcrypt.compare(enteredPassword, this.password);
+}
 
 export const BaseAuth = mongoose.model("BaseAuth", BaseAuthSchema);
