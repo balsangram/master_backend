@@ -1,13 +1,13 @@
 import express from "express";
-import { authenticate } from "../../../../middleware/authMiddleware.JS";
-import { addNewArtists, deleteArtist, displayArtists, modifiedArtistDetaisl } from "../../controller/artist.controller";
-
+import { authenticate } from "../../../../middleware/authMiddleware.js";
+import { addNewArtists, deleteArtist, modifiedArtistDetaisl,getAllArtistsController } from "../../controller/artist.controller.js";
+import { artistSchema } from "../../validators/artist.validator.js";
+import { validateMultiple } from "../../../../middleware/validateMultiple.js";
 const router = express.Router()
 
-router.get("/",
-    authenticate(["user", "admin"]),
-    displayArtists);
-router.post("/", addNewArtists);
+router.get("/get-all-artists",
+    getAllArtistsController);
+router.post("/",validateMultiple({body:artistSchema}) ,addNewArtists);
 router.patch("/:artistId", modifiedArtistDetaisl);
 router.delete("/:artistId", deleteArtist);
 

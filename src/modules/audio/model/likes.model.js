@@ -1,4 +1,3 @@
-import { types } from "joi";
 import mongoose from "mongoose";
 
 const likesSchema = new mongoose.Schema({
@@ -10,7 +9,7 @@ likesSong:{
     type:mongoose.Schema.Types.ObjectId,
     ref:"Audio"
 },
-likesPlayList:{
+likePlayList:{
     type:mongoose.Schema.Types.ObjectId,
     req:"PlayList"
 },

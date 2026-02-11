@@ -3,7 +3,7 @@ import cors from "cors";
 import adminRoutes from "./modules/admin/router/admin.router.js";
 import authRouter from "./modules/auth/router/auth.router.js"
 import messageRouter from "./modules/message/router/messagerouter.js"
-
+import musicRouter from "./modules/audio/routes/audio.router.js"
 const app = express();
 
 // parse json 
@@ -19,6 +19,8 @@ app.get('/', (req, res) => {
 app.use("/admin", adminRoutes);
 app.use("/auth", authRouter);
 app.use("/message", messageRouter);
+app.use("/music", musicRouter);
+
 // app.use('/social',)
 
 export default app;

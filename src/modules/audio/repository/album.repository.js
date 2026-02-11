@@ -1,4 +1,4 @@
-import Album from "../model/album.model.js"
+import {Album} from "../model/album.model.js"
 const createAlbumRepo = async (payload) => {
   return await Album.create(payload);
 };

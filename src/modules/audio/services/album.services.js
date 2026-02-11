@@ -1,4 +1,4 @@
-import { albumRepository } from "../repository/album.repository";
+import { albumRepository } from "../repository/album.repository.js";
 const createAlbum=async(payload)=>{
     return await albumRepository.createAlbumRepo(payload)
 }

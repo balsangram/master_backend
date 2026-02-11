@@ -17,7 +17,14 @@ const albumSchema = new mongoose.Schema(
         genre: {
             type: String,
         },
-        releaseDate: Date
+        coverImg: {
+            type: String
+        },
+        releaseDate: {
+            type: Date,
+          
+        }
 
     }
 )
+export const Album = mongoose.model('Album', albumSchema);
