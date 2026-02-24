@@ -22,7 +22,7 @@ const albumSchema = new mongoose.Schema(
         },
         releaseDate: {
             type: Date,
-          
+
         }
 
     }
